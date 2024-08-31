@@ -54,9 +54,3 @@ Ce projet consiste en la création d'une application web utilisant la reconnaiss
 5. **Reconnaissance Faciale**
    - Page dédiée à la reconnaissance faciale en temps réel. Affiche un flux vidéo en direct et les informations des employés détectés.
 
-## Installation
-
-1. Clonez le dépôt :
-   ```bash
-   git clone https://github.com/votre-depot/votre-projet.git
-"# Facial-Recognition-and-Absence-Management" 
