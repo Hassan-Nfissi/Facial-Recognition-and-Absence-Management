@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enregistrements d'Absence</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Styles de la barre de navigation */
+        .navbar {
+            background-color: black !important;
+            padding: 0.5rem 1rem; /* Padding pour un look compact */
+        }
+
+        footer {
+            margin-top: 24rem;
+            background-color: black;
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        .navbar-brand {
+            font-size: 1.125rem; /* Taille de police légèrement réduite pour un effet plus modéré */
+            color: #f8f9fa; /* Couleur du texte pour un bon contraste avec le fond noir */
+            font-weight: 500; /* Poids de la police normal pour un aspect plus élégant */
+            transition: color 0.3s ease; /* Transition fluide pour l'effet de survol */
+        }
+        .navbar-brand:hover {
+            color: #e0e0e0; /* Couleur de survol douce pour un effet élégant */
+        }
+
+        /* Styles pour la page de connexion */
+        .vh-100 {
+            height: 100vh;
+        }
+        .h-custom {
+            height: calc(100% - 73px);
+        }
+        @media (max-width: 450px) {
+            .h-custom {
+                height: 100%;
+            }
+        }
+        .divider:before,
+        .divider:after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #eee;
+        }
+        .login-container {
+            margin-top: 50px;
+        }
+        .login-form img {
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Système de Gestion des Absences</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/home">Accueil</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/capture">Entraîner</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/adding">Ajouter un Employé</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/face_reco">Reconnaissance Faciale</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/view_absence">Absence</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Connexion Admin</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Page de connexion -->
+<section class="vh-100">
+    <div class="container-fluid h-custom">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-9 col-lg-6 col-xl-5">
+                <img src="{{ url_for('static', filename='photos/illustration-du-concept-connexion_114360-739.avif') }}" class="img-fluid" alt="Sample image">
+            </div>
+            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                <form action="/login" method="post">
+                    <div class="form-outline mb-4">
+                        <input type="email" id="form3Example3" name="email" class="form-control form-control-lg" placeholder="Entrez une adresse email valide" required />
+                        <label class="form-label" for="form3Example3">Adresse email</label>
+                    </div>
+
+                    <div class="form-outline mb-3">
+                        <input type="password" id="form3Example4" name="password" class="form-control form-control-lg" placeholder="Entrez le mot de passe" required />
+                        <label class="form-label" for="form3Example4">Mot de passe</label>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <!-- Checkbox -->
+                        <div class="form-check mb-0">
+                            <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
+                            <label class="form-check-label" for="form2Example3">
+                                Se souvenir de moi
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="text-center text-lg-start mt-4 pt-2">
+                        <button type="submit" class="btn btn-dark btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;">Se connecter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    &copy; 2023 Système de Gestion des Absences
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

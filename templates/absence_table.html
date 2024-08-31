@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enregistrements d'Absence</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Styles de la barre de navigation */
+        .navbar {
+            background-color: black !important;
+            padding: 0.5rem 1rem; /* Padding pour un look compact */
+        }
+        footer {
+            margin-top: 24rem;
+            background-color: black;
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        .navbar-brand {
+            font-size: 1.125rem; /* Taille de police légèrement réduite pour un effet plus modéré */
+            color: #f8f9fa; /* Couleur du texte pour un bon contraste avec le fond noir */
+            font-weight: 500; /* Poids de la police normal pour un aspect plus élégant */
+            transition: color 0.3s ease; /* Transition fluide pour l'effet de survol */
+        }
+        .navbar-brand:hover {
+            color: #e0e0e0; /* Couleur de survol douce pour un effet élégant */
+        }
+
+        /* Styles du tableau d'absence */
+        .table {
+            border-collapse: collapse;
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .table thead th {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            padding: 6px; /* Réduit le padding pour une hauteur plus compacte */
+            font-weight: 600;
+            font-size: 0.75rem;
+            border-bottom: 2px solid #444;
+        }
+
+        .table tbody td {
+            text-align: center;
+            padding: 8px; /* Réduit le padding pour les cellules */
+            font-size: 0.875rem;
+            border-bottom: 1px solid #ddd;
+            transition: background-color 0.3s ease;
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .table tbody tr:hover {
+            background-color: #e0e0e0;
+            transform: scale(1.02);
+        }
+
+        .table tbody tr {
+            transition: transform 0.3s ease;
+        }
+
+        .table img {
+            max-width: 80px; /* Réduit la largeur des images */
+            height: auto;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+            transition: border-color 0.3s ease;
+        }
+
+        .table img:hover {
+            border-color: #000;
+        }
+
+        .table th, .table td {
+            border-radius: 4px;
+        }
+        .download-btn {
+            display: block;
+            width: 200px;
+            margin: 20px auto; /* Centré horizontalement */
+            padding: 10px;
+            background-color: #28a745; /* Vert Bootstrap */
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background-color: #218838; /* Vert plus foncé pour effet de survol */
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Système de Gestion des Absences</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="http://127.0.0.1:5000/home">Accueil</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://127.0.0.1:5000/capture">Entraîner</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://127.0.0.1:5000/adding">Ajouter un Employé</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://127.0.0.1:5000/face_reco">Reconnaissance Faciale</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://127.0.0.1:5000/view_absence">Absence</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/">Connexion Admin</a>
+        </ul>
+    </div>
+</nav>
+
+    <div class="container mt-4">
+        <h2>Enregistrements d'Absence</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Photo</th>
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <th>Poste</th>
+                    <th>Téléphone</th>
+                    <th>Date</th>
+                    <th>Date d'entrée</th>
+                </tr>
+            </thead>
+            <tbody id="absence-data">
+                <!-- Les données seront peuplées par JavaScript -->
+            </tbody>
+        </table>
+    </div>
+<a href="/download_excel" class="download-btn">Télécharger en Excel</a>
+<footer>
+        &copy; 2023 Système de Gestion des Absences
+    </footer>
+    <script>
+        async function fetchAbsenceData() {
+            try {
+                const response = await fetch('/show_absence');
+                const data = await response.json();
+
+                const tableBody = document.getElementById('absence-data');
+                tableBody.innerHTML = '';
+
+                data.forEach(record => {
+                    const row = document.createElement('tr');
+
+                    row.innerHTML = `
+                        <td>${record.id}</td>
+                        <td><img src="data:image/jpeg;base64,${record.photo}" width="100" height="100" /></td>
+                        <td>${record.first_name}</td>
+                        <td>${record.last_name}</td>
+                        <td>${record.position}</td>
+                        <td>${record.phone}</td>
+                        <td>${record.date}</td>
+                        <td>${record.presence}</td>
+                    `;
+
+                    tableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Erreur lors de la récupération des données d\'absence:', error);
+            }
+        }
+
+        window.onload = fetchAbsenceData;
+    </script>
+</body>
+</html>

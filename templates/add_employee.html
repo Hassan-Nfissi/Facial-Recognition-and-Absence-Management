@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Système de Gestion des Employés</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .navbar {
+            background-color: black !important;
+            padding: 0.5rem 1rem;
+        }
+        footer {
+            margin-top: 22rem;
+            background-color: black;
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        .navbar-brand {
+            color: #f8f9fa;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .navbar-brand:hover {
+            color: #e0e0e0;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-top: 30px;
+            gap: 20px;
+        }
+        #formContainer {
+            width: 45%;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        #formContainer h2 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            color: #343a40;
+        }
+        .form-control, .form-control-file {
+            border-radius: 4px;
+        }
+        .form-group label {
+            font-weight: 600;
+            color: #495057;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        #tableContainer {
+            width: 50%;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        #tableContainer h2 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            color: #343a40;
+        }
+
+        /* Nouveau style du tableau Liste des Employés */
+        .table {
+            border-collapse: collapse;
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        .table thead th {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            padding: 6px;
+            font-weight: 600;
+            font-size: 0.75rem;
+            border-bottom: 2px solid #444;
+        }
+        .table tbody td {
+            text-align: center;
+            padding: 8px;
+            font-size: 0.875rem;
+            border-bottom: 1px solid #ddd;
+            transition: background-color 0.3s ease;
+        }
+        .table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .table tbody tr:hover {
+            background-color: #e0e0e0;
+            transform: scale(1.02);
+        }
+        .table tbody tr {
+            transition: transform 0.3s ease;
+        }
+        .table img {
+            max-width: 80px;
+            height: auto;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+            transition: border-color 0.3s ease;
+        }
+        .table img:hover {
+            border-color: #000;
+        }
+        .table th, .table td {
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Système de Gestion des Absences</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a class="nav-link" href="http://127.0.0.1:5000/home">Accueil</a></li>
+            <li class="nav-item"><a class="nav-link" href="http://127.0.0.1:5000/capture">Entraînement</a></li>
+            <li class="nav-item"><a class="nav-link" href="http://127.0.0.1:5000/adding">Ajouter un Employé</a></li>
+            <li class="nav-item"><a class="nav-link" href="http://127.0.0.1:5000/face_reco">Reconnaissance Faciale</a></li>
+            <li class="nav-item"><a class="nav-link" href="http://127.0.0.1:5000/view_absence">Absence</a></li>
+            <li class="nav-item"><a class="nav-link" href="/">Connexion Admin</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div id="formContainer">
+        <h2>Ajouter un Employé</h2>
+        <form method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="firstName">Prénom</label>
+                <input type="text" id="firstName" name="firstName" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Nom</label>
+                <input type="text" id="lastName" name="lastName" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="position">Poste</label>
+                <input type="text" id="position" name="position" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="startDate">Date de début</label>
+                <input type="date" id="startDate" name="startDate" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Téléphone</label>
+                <input type="text" id="phone" name="phone" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="photo">Photo</label>
+                <input type="file" id="photo" name="photo" class="form-control-file">
+                <img id="photoPreview" src="#" alt="Aperçu de la photo" style="display:none;" class="img-thumbnail">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Ajouter</button>
+        </form>
+    </div>
+
+    <div id="tableContainer">
+        <h2>Liste des Employés</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Photo</th>
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <th>Poste</th>
+                    <th>Date de début</th>
+                    <th>Téléphone</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for employee in employees %}
+                <tr>
+                    <td>
+                        {% if employee.photo %}
+                        <img src="data:image/jpeg;base64,{{ employee.photo }}" alt="Photo de l'employé" class="img-thumbnail">
+                        {% else %}
+                        N/A
+                        {% endif %}
+                    </td>
+                    <td>{{ employee.first_name }}</td>
+                    <td>{{ employee.last_name }}</td>
+                    <td>{{ employee.position }}</td>
+                    <td>{{ employee.start_date }}</td>
+                    <td>{{ employee.phone }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<footer>
+        &copy; 2023 Système de Gestion des Employés
+    </footer>
+<script>
+    const photoInput = document.getElementById('photo');
+    const photoPreview = document.getElementById('photoPreview');
+
+    photoInput.addEventListener('change', function() {
+        const file = photoInput.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            photoPreview.src = e.target.result;
+            photoPreview.style.display = 'block';
+        };
+
+        reader.readAsDataURL(file);
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Système de Gestion des Employés</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Styles de la barre de navigation */
+        .navbar {
+            background-color: black !important;
+            padding: 0.5rem 1rem; /* Padding pour un look compact */
+        }
+
+        .navbar-brand {
+            font-size: 1.125rem; /* Taille de police légèrement réduite pour un effet plus modéré */
+            color: #f8f9fa; /* Couleur du texte pour un bon contraste avec le fond noir */
+            font-weight: 500; /* Poids de la police normal pour un aspect plus élégant */
+            transition: color 0.3s ease; /* Transition fluide pour l'effet de survol */
+        }
+        .navbar-brand:hover {
+            color: #e0e0e0; /* Couleur de survol douce pour un effet élégant */
+        }
+
+        /* Styles du conteneur principal */
+        #container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin: 2rem;
+        }
+
+        /* Styles du conteneur de la vidéo */
+        #videoContainer {
+            flex: 1;
+            margin-right: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        #video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Styles du conteneur du tableau */
+        #infoContainer {
+            flex: 2;
+        }
+
+        #infoTable {
+            border-collapse: collapse;
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        #infoTable thead th {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            padding: 6px; /* Réduit le padding pour une hauteur plus compacte */
+            font-weight: 600;
+            font-size: 0.75rem;
+            border-bottom: 2px solid #444;
+        }
+
+        #infoTable tbody td {
+            text-align: center;
+            padding: 8px; /* Réduit le padding pour les cellules */
+            font-size: 0.875rem;
+            border-bottom: 1px solid #ddd;
+            transition: background-color 0.3s ease;
+        }
+
+        #infoTable tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        #infoTable tbody tr:hover {
+            background-color: #e0e0e0;
+            transform: scale(1.02);
+        }
+
+        #infoTable tbody tr {
+            transition: transform 0.3s ease;
+        }
+
+        #infoTable img {
+            max-width: 80px; /* Réduit la largeur des images */
+            height: auto;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+            transition: border-color 0.3s ease;
+        }
+
+        #infoTable img:hover {
+            border-color: #000;
+        }
+
+        #infoTable th, #infoTable td {
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Système de Gestion des Absences</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Basculer la navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="http://127.0.0.1:5000/home">Accueil</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://127.0.0.1:5000/capture">Entraîner</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://127.0.0.1:5000/adding">Ajouter un Employé</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://127.0.0.1:5000/face_reco">Reconnaissance Faciale</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://127.0.0.1:5000/view_absence">Absence</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/">Connexion Admin</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div id="container">
+    <div id="videoContainer">
+        <img id="video" src="{{ url_for('video_feed') }}" alt="Flux Vidéo">
+    </div>
+
+    <div id="infoContainer">
+        <table id="infoTable" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <th>Position</th>
+                    <th>Téléphone</th>
+                    <th>Photo</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody id="infoTableBody">
+                <!-- Lignes remplies dynamiquement -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    let recognizedNames = new Set(); // Pour suivre les noms reconnus
+
+    function fetchEmployeeInfo() {
+        fetch('/employee_info')
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.first_name && data.last_name) {
+                    const name = `${data.first_name}-${data.last_name}`;
+                    if (!recognizedNames.has(name)) {
+                        recognizedNames.add(name);
+                        const row = document.createElement("tr");
+
+                        row.innerHTML = `
+                            <td>${data.first_name || "Inconnu"}</td>
+                            <td>${data.last_name || "Inconnu"}</td>
+                            <td>${data.position || "Inconnu"}</td>
+                            <td>${data.phone || "Inconnu"}</td>
+                            <td>${data.photo ? `<img src="data:image/jpeg;base64,${data.photo}" alt="Photo de l'Employé">` : "Pas de Photo"}</td>
+                            <td>${data.date || "Inconnu"}</td>
+                        `;
+
+                        document.getElementById("infoTableBody").appendChild(row);
+                    }
+                }
+            });
+    }
+
+    setInterval(fetchEmployeeInfo, 1000);
+</script>
+</body>
+</html>

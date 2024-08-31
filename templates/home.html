@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Système de Gestion des Employés</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    /* Styles de la barre de navigation */
+    .navbar {
+        background-color: black !important;
+        padding: 0.5rem 1rem;
+        height: 60px;
+        align-items: center;
+    }
+
+    .navbar-brand {
+        font-size: 1.25rem;
+        color: #f8f9fa;
+        font-weight: 600;
+        transition: color 0.3s ease;
+    }
+
+    .navbar-brand:hover {
+        color: #e0e0e0;
+    }
+
+    .navbar-nav .nav-link {
+        font-size: 1.125rem;
+        padding: 0.5rem 1rem;
+    }
+
+    * {
+        box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    }
+
+    .carousel-caption {
+        font-size: 2.9rem;
+        height: 29rem;
+    }
+
+    .divMain {
+        display: flex;
+        background-color: black;
+        color: white;
+    }
+
+    section {
+        position: relative;
+        width: 100%;
+        background-size: cover;
+        background-attachment: fixed;
+        background-position: center;
+    }
+
+    .section-2 {
+        background-color: white;
+        height: -20rem;
+    }
+
+    .section-2 .fit-image {
+        height: 40rem;
+    }
+
+    .text {
+        justify-content: center;
+        align-items: center;
+        margin-top: 2.5rem;
+        margin-left: 2rem;
+    }
+
+    .text #t1 {
+        margin-left: 7rem;
+        font-size: 1.5rem;
+    }
+
+    ul {
+        list-style-type: none;
+        margin: 1rem 3rem;
+        padding: 0;
+    }
+
+    li {
+        font-size: 1.5rem;
+        margin-bottom: 0.2rem;
+    }
+
+    ul.category {
+        margin-left: 0;
+    }
+
+    ul.category li {
+        font-weight: bold;
+        font-size: 1.5rem;
+        margin-bottom: 0.2rem;
+    }
+
+    ul.subcategory {
+        list-style-type: disc;
+        margin-left: 2rem;
+    }
+
+    ul.subcategory li {
+        font-weight: normal;
+        font-size: 1.3rem;
+    }
+
+    .about {
+        background-color: white;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 0;
+    }
+
+    html {
+        box-sizing: border-box;
+    }
+
+    *, *::before, *::after {
+        box-sizing: inherit;
+    }
+
+    .column {
+        float: left;
+        width: 33.3%;
+        margin-bottom: 16px;
+        padding: 0 8px;
+    }
+
+    .card {
+        box-shadow: 10px 4px 8px 0 rgba(0, 0, 0, 0.2);
+        margin: 18px;
+    }
+
+    .about-section {
+        padding: 50px;
+        text-align: center;
+        background-color: black;
+        color: white;
+    }
+
+    .container {
+        padding: 0 16px;
+    }
+
+    .container::after, .row::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    .title {
+        color: grey;
+    }
+
+    .button {
+        border: none;
+        outline: 0;
+        display: inline-block;
+        padding: 8px;
+        color: white;
+        background-color: #000;
+        text-align: center;
+        cursor: pointer;
+        width: 100%;
+    }
+</style>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Système de Gestion des Absences</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+         <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/home">Accueil</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://127.0.0.1:5000/capture">Entraîner</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://127.0.0.1:5000/adding">Ajouter un employé</a>
+            </li>
+             <li class="nav-item">
+                <a class="nav-link" href="http://127.0.0.1:5000/face_reco">Reconnaissance faciale</a>
+            </li>
+             <li class="nav-item">
+                <a class="nav-link" href="http://127.0.0.1:5000/view_absence">Absence</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/">Connexion Administrateur</a>
+            </li>
+    </div>
+</nav>
+
+<!-- Carousel -->
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleIndicators" data-slide="1"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img class="d-block w-100" style="width: 100vw; height: 610px;" src="{{ url_for('static', filename='photos/1.jpg') }}" alt="Premier diaporama">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Premier diaporama</h5>
+                <p>Assurez la sécurité, identifiez vos employés avec précision et rapidité.</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img class="d-block w-100" style="width: 100vw; height: 610px;" src="{{ url_for('static', filename='photos/2.jpg') }}" alt="Deuxième diaporama">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Deuxième diaporama</h5>
+                <p>Confirmez rapidement les identités et simplifiez le suivi des présences.</p>
+            </div>
+        </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Précédent</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Suivant</span>
+    </a>
+</div>
+<div style="height: 50px;"></div>
+
+<!-- Technologie utilisée -->
+<section id="skills" class="section-2 odd highlights image-right counter skills featured">
+    <div class="divMain container">
+        <div class="text">
+ <h1 class="text">Technologies Utilisées   </h1>
+<ul class="category" id="t1">
+    <li>Technologie Backend
+        <ul class="subcategory">
+            <li>Python</li>
+            <li>Flask</li>
+        </ul>
+    </li>
+    <li>Technologie Frontend
+        <ul class="subcategory">
+            <li>HTML/CSS</li>
+            <li>Bootstrap</li>
+        </ul>
+    </li>
+    <li>Technologie Base de Données
+        <ul class="subcategory">
+            <li>SQLite</li>
+        </ul>
+    </li>
+</ul>
+
+        </div>
+        <div class="image">
+            <img src="{{ url_for('static', filename='photos/about-5.webp') }}" class="fit-image" alt="Image Technologie">
+        </div>
+    </div>
+</section>
+<div style="height: 80px;"></div>
+<section class="about">
+    <div class="container">
+        <div class="about-section">
+            <h1>À Propos de Notre Système</h1>
+            <p>Gérez et documentez efficacement les détails des employés pour assurer un suivi précis des présences et sécuriser les processus organisationnels.</p>
+        </div>
+
+        <h2>Notre Équipe</h2>
+        <div class="row">
+            <div class="column">
+                <div class="card">
+                    <img src="{{ url_for('static', filename='photos/Hassan2.jpg') }}" alt="Hassan Nfissi" style="width:100%">
+                    <div class="container">
+                        <h2>Hassan Nfissi</h2>
+                        <p class="title">Data Scientist</p>
+                        <p>Passionné par l'analyse des données et l'apprentissage automatique.</p>
+                        <p>hassan.nfissi50@gmail.com</p>
+                        <p><button class="button">Contact</button></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="card">
+                    <img src="{{ url_for('static', filename='photos/musk.jpg') }}" alt="Elon Musk" style="width:100%">
+                    <div class="container">
+                        <h2>Elon Musk</h2>
+                        <p class="title">Développeur Backend</p>
+                        <p>Expert dans la création d'applications sécurisées et évolutives.</p>
+                        <p>elon.musk30@gmail.com</p>
+                        <p><button class="button">Contact</button></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="card">
+                    <img src="{{ url_for('static', filename='photos/Gates.jpg') }}" alt="Ball Gates" style="width:100%">
+                    <div class="container">
+                        <h2>Ball Gates</h2>
+                        <p class="title">Data Analyst</p>
+                        <p>Passionné par la transformation des données en insights exploitables.</p>
+                        <p>ball.gates15@gmail.com</p>
+                        <p><button class="button">Contact</button></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- JavaScript pour Bootstrap -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
